@@ -35,14 +35,14 @@ public class AI : MonoBehaviour {
         }
         else
         {
-            agent.SetDestination(locationTarget.position);
+          
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
 
-        if(collision.gameObject.tag == "position")
+        if(collision.gameObject.tag == "patrolPoint")
         {
             goToRandomLocation();
         }
@@ -58,18 +58,26 @@ public class AI : MonoBehaviour {
     // go to all available random hotspots 
     void goToRandomLocation()
     {
-        GameObject[] locations = GameObject.FindGameObjectsWithTag("position");
-        if(locations != null)
+        GameObject[] locations = GameObject.FindGameObjectsWithTag("patrolPoint");
+        // can't use null, because locations is already set
+        if(locations.Length != 0)
         {
+            Debug.Log("locations size: " + locations.Length);
+
             randomPosition = Random.Range(0, locations.Length);
             locationTarget = locations[randomPosition].transform;
             goToLocation(locationTarget.position);
-            
+
+        }
+        else
+        {
+            Debug.Log("locations GameObject array is empty");
         }
     }
 
     void goToLocation(Vector3 pos)
     {
+        Debug.Log("Going to position");
         agent.SetDestination(pos);
     }
 

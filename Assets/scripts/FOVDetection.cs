@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FOVDetection : MonoBehaviour {
 
-    public Transform player;
+    public Transform playerTransformation;
     public GameObject AI;
     public float maxAngle;
     public float maxRadius;
@@ -13,46 +13,50 @@ public class FOVDetection : MonoBehaviour {
 
     private void Update()
     {
-        isInFOV = inFOV(transform, player, maxAngle, maxRadius);
+        isInFOV = inFOV(transform, playerTransformation, maxAngle, maxRadius);
     }
 
     /*The one is for visio purposes of the gizmos
      * */
     private void OnDrawGizmos()
     {
-        // draw a radius around the AI
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, maxRadius);
+        if(playerTransformation != null) {
+            // draw a radius around the AI
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, maxRadius);
 
-        // defining how the lines will be drawn
-        Vector3 fovLine1 = Quaternion.AngleAxis(maxAngle, transform.up) * transform.forward * maxRadius;
-        Vector3 fovLine2 = Quaternion.AngleAxis(-maxAngle, transform.up) * transform.forward * maxRadius;
+            // defining how the lines will be drawn
+            Vector3 fovLine1 = Quaternion.AngleAxis(maxAngle, transform.up) * transform.forward * maxRadius;
+            Vector3 fovLine2 = Quaternion.AngleAxis(-maxAngle, transform.up) * transform.forward * maxRadius;
 
-        // drawing the lines of the defined lines
-        // these two lines combined will be our AI's field of view
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, fovLine1);
-        Gizmos.DrawRay(transform.position, fovLine2);
+            // drawing the lines of the defined lines
+            // these two lines combined will be our AI's field of view
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(transform.position, fovLine1);
+            Gizmos.DrawRay(transform.position, fovLine2);
 
-        // The red line will always point towards the player
-        if (!isInFOV)
-        {
-            Gizmos.color = Color.red;
+            // The green line will always point towards the player
+            if (!isInFOV)
+            {
+                Gizmos.color = Color.green;
+            }
+            else
+            {
+                // Player is detected
+                Gizmos.color = Color.red;
+            }
+            Gizmos.DrawRay(transform.position, (playerTransformation.position - transform.position).normalized * maxRadius);
+
+            // the black line will always be foward
+            Gizmos.color = Color.black;
+            Transform targetLoc = gameObject.GetComponent<AI>().locationTarget;
+            if (targetLoc != null)
+            {
+                Gizmos.DrawLine(transform.position, targetLoc.forward * maxRadius);
+                // original: Gizmos.DrawLine(transform.position, transform.forward * maxRadius);
+            }
         }
-        else
-        {
-            Gizmos.color = Color.green;
-        }
-        Gizmos.DrawRay(transform.position, (player.position - transform.position).normalized * maxRadius);
-
-        // the black line will always be foward
-        Gizmos.color = Color.black;
-        Transform targetLoc = gameObject.GetComponent<AI>().locationTarget;
-        if (targetLoc != null)
-        {
-            Gizmos.DrawLine(transform.position, targetLoc.forward * maxRadius);
-            // original: Gizmos.DrawLine(transform.position, transform.forward * maxRadius);
-        }
+        
 
     }
 
@@ -90,6 +94,8 @@ public class FOVDetection : MonoBehaviour {
                         {
                             if(hit.transform == target)
                             {
+                                // Updating the GameManager's isPLayerSpotted variable
+                                TheGameManager.Instance.GetComponent<TheGameManager>().setIsPlayerSpotted(true);
                                 return true;
                             }
                         }
