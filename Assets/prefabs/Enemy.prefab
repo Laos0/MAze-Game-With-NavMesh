@@ -23,14 +23,13 @@ GameObject:
   - component: {fileID: 23016369485872342}
   - component: {fileID: 136643701245895222}
   - component: {fileID: 195631995963248606}
-  - component: {fileID: 114689473954320458}
   - component: {fileID: 114659769518796912}
   - component: {fileID: 54635433131302768}
   - component: {fileID: 114346992596534212}
   - component: {fileID: 208712208063786860}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -116,15 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59bdb4ff971f8b84baa6ad0da48dd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  isPlayerSpotted: 0
+  alertNPC: 0
   target: {fileID: 0}
 --- !u!114 &114659769518796912
 MonoBehaviour:
@@ -137,26 +129,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4bb0228f663c0428746f537fb9120b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  playerTransformation: {fileID: 0}
   AI: {fileID: 1054113839453786}
   maxAngle: 45
   maxRadius: 35
   isInFOV: 0
---- !u!114 &114689473954320458
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1054113839453786}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8284cb95a2a9dba4699840c7e7e7a247, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 195631995963248606}
-  target: {fileID: 0}
-  locationTarget: {fileID: 0}
-  isPlayerSpotted: 0
 --- !u!136 &136643701245895222
 CapsuleCollider:
   m_ObjectHideFlags: 1

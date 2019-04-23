@@ -16,12 +16,17 @@ public class Patrol : MonoBehaviour
 
     private int randomPosition;
 
+    float walkSpd, runSpd, targetSpd;
+
 
     void Start()
     {
         locations = GameObject.FindGameObjectsWithTag("patrolPoint");
         isPlayerSpotted = false;
         agent = GetComponent<NavMeshAgent>();
+        setWalkSpd(1);
+        setRunSpd(2);
+
 
         // Disabling auto-braking allows for continuous movement
         // between points (ie, the agent doesn't slow down as it
@@ -54,25 +59,15 @@ public class Patrol : MonoBehaviour
         if (isPlayerSpotted)
         {
             agent.SetDestination(target.transform.position);
-            if (gameObject.name == "Enemy")
-            {
-                //agent.GetComponent<NavMeshAgent>().speed = 1;
-            }
-            else
-            {
-                agent.GetComponent<NavMeshAgent>().speed = 1;
-            }
+            targetSpd = runSpd;
+            changeSpd();
+            
         }
         else
         {
-            if(gameObject.name == "Enemy")
-            {
-                //agent.GetComponent<NavMeshAgent>().speed = 1;
-            }
-            else
-            {
-                agent.GetComponent<NavMeshAgent>().speed = 1;
-            }
+            targetSpd = walkSpd;
+            changeSpd();
+            Debug.Log("PLAYER IS NOT SPOTTED");
             // Choose the next destination point when the agent gets
             // close to the current one.
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
@@ -81,6 +76,22 @@ public class Patrol : MonoBehaviour
             }
         }
     
+    }
+
+    void changeSpd()
+    {
+        agent.GetComponent<NavMeshAgent>().speed = targetSpd;
+        Debug.Log("speed change");
+    }
+
+    public void setRunSpd(float num)
+    {
+        runSpd = num;
+    }
+
+    public void setWalkSpd(float num)
+    {
+        walkSpd = num;
     }
 
 }

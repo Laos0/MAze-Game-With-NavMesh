@@ -6,6 +6,12 @@ TagManager:
   tags:
   - position
   - patrolPoint
+  - enemy
+  - Fire
+  - key
+  - door
+  - visionItem
+  - speedItem
   layers:
   - Default
   - TransparentFX

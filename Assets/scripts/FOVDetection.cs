@@ -48,13 +48,14 @@ public class FOVDetection : MonoBehaviour {
             Gizmos.DrawRay(transform.position, (playerTransformation.position - transform.position).normalized * maxRadius);
 
             // the black line will always be foward
-            Gizmos.color = Color.black;
+            /*Gizmos.color = Color.black;
             Transform targetLoc = gameObject.GetComponent<AI>().locationTarget;
             if (targetLoc != null)
             {
                 Gizmos.DrawLine(transform.position, targetLoc.forward * maxRadius);
                 // original: Gizmos.DrawLine(transform.position, transform.forward * maxRadius);
             }
+            */
         }
         
 
