@@ -64,5 +64,21 @@ public class PlayerInventory : MonoBehaviour {
                 TheGameManager.Instance.GetComponent<TheGameManager>().winGame();
             }
         }
+
+       
     }
+
+    public void resetInActiveObj()
+    {
+        if(inActiveItems != null)
+        {
+           for(int i = 0; i < inActiveItems.Count; i++)
+            {
+                inActiveItems[i].SetActive(true);
+            }
+        }
+
+        inActiveItems = new List<GameObject>();
+    }
+
 }

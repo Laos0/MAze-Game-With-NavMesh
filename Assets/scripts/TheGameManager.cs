@@ -15,6 +15,8 @@ public class TheGameManager : Singleton<TheGameManager> {
     public GameObject gameOverMenuUI;
     public GameObject winGameUI;
 
+    private Vector3 playerStartingPos;
+
     //public Camera camera;
 
     private bool doesPlayerHaveKey;
@@ -23,6 +25,11 @@ public class TheGameManager : Singleton<TheGameManager> {
 	// Use this for initialization
 	void Awake () {
         StartCoroutine(startGame());
+    }
+
+    private void Start()
+    {
+        playerStartingPos = player.transform.position;
     }
 
     // this method will be called through the FOVDetection script
@@ -37,7 +44,7 @@ public class TheGameManager : Singleton<TheGameManager> {
 
     public void alertNPC()
     {
-        for(int i = 0; i < enemies.Capacity; i++)
+        for(int i = 0; i < enemies.Count; i++)
         {
             enemies[i].GetComponent<Patrol>().isPlayerSpotted = true;
         }
@@ -89,8 +96,10 @@ public class TheGameManager : Singleton<TheGameManager> {
     public void restartGame()
     {
         destroyAllEnemies();
-
-        SceneManager.LoadScene(1);
+        player.GetComponent<PlayerInventory>().resetInActiveObj();
+        resetPlayerPosition();
+        gameOverMenuUI.SetActive(false);
+        winGameUI.SetActive(false);
         Time.timeScale = 1f;
         StartCoroutine(startGame());
     }
@@ -145,11 +154,16 @@ public class TheGameManager : Singleton<TheGameManager> {
 
     void destroyAllEnemies()
     {
-        for(int i = 0; i < enemies.Capacity; i++)
+        for(int i = 0; i < enemies.Count; i++)
         {
             Destroy(enemies[i]);
         }
 
         enemies = new List<GameObject>();
+    }
+
+    void resetPlayerPosition()
+    {
+        player.transform.position = playerStartingPos;
     }
 }
