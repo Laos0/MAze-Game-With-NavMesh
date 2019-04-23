@@ -481,6 +481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 445604628}
   agent: {fileID: 749187118}
+  character: {fileID: 0}
+  clickEffect: {fileID: 0}
 --- !u!136 &749187120
 CapsuleCollider:
   m_ObjectHideFlags: 0

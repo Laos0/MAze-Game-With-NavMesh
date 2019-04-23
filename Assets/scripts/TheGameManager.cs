@@ -15,7 +15,8 @@ public class TheGameManager : Singleton<TheGameManager> {
     public GameObject gameOverMenuUI;
     public GameObject winGameUI;
 
-    private Vector3 playerStartingPos;
+    public Transform playerStartingPos;
+
 
     //public Camera camera;
 
@@ -25,11 +26,6 @@ public class TheGameManager : Singleton<TheGameManager> {
 	// Use this for initialization
 	void Awake () {
         StartCoroutine(startGame());
-    }
-
-    private void Start()
-    {
-        playerStartingPos = player.transform.position;
     }
 
     // this method will be called through the FOVDetection script
@@ -70,16 +66,10 @@ public class TheGameManager : Singleton<TheGameManager> {
 
     private void populateEnemies()
     {
-        GameObject e1 = createEnemy(new Vector3(89,2,89));
-        e1.GetComponent<Patrol>().setRunSpd(10);
-        e1.GetComponent<Patrol>().setWalkSpd(10);
- 
+        GameObject e1 = createEnemy(new Vector3(89, 2, 89));
         GameObject e2 = createEnemy(new Vector3(-32,2,117));
         GameObject e3 = createEnemy(new Vector3(-32,2,-49));
         GameObject e4 = createEnemy(new Vector3(64,2,16));
-        e1.GetComponent<Patrol>().target = player;
-        e2.GetComponent<Patrol>().target = player;
-        e3.GetComponent<Patrol>().target = player;
     }
 
     public void gameOver()
@@ -142,7 +132,7 @@ public class TheGameManager : Singleton<TheGameManager> {
         isPlayerSpotted = false;
         populateEnemies();
         doesPlayerHaveKey = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         configureNPC();
     }
 
@@ -150,6 +140,11 @@ public class TheGameManager : Singleton<TheGameManager> {
     {
         enemies[0].GetComponent<Patrol>().setRunSpd(10);
         enemies[0].GetComponent<Patrol>().setWalkSpd(10);
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].GetComponent<Patrol>().target = player;
+        }
     }
 
     void destroyAllEnemies()
@@ -164,6 +159,10 @@ public class TheGameManager : Singleton<TheGameManager> {
 
     void resetPlayerPosition()
     {
-        player.transform.position = playerStartingPos;
+        for(int i = 0; i < 5; i++)
+        {
+            player.transform.position = playerStartingPos.position;
+
+        }
     }
 }
