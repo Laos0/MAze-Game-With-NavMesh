@@ -34,8 +34,12 @@ public class PlayerController : MonoBehaviour {
 
             if(Physics.Raycast(ray, out hit)) // shooting out another ray to see what we hit
             {
-                // Move player/agent
+  
                 agent.SetDestination(hit.point);
+                Vector3 newPoint = new Vector3(hit.point.x, .3f, hit.point.z);
+                clickEffect.transform.position = newPoint;
+                //clickEffect.transform.position.Set(0, 0, 0);
+                // Move player/agent
 
             }
         }
