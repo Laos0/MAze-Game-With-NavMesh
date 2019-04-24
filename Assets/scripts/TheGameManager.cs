@@ -138,8 +138,8 @@ public class TheGameManager : Singleton<TheGameManager> {
 
     void configureNPC()
     {
-        enemies[0].GetComponent<Patrol>().setRunSpd(10);
-        enemies[0].GetComponent<Patrol>().setWalkSpd(10);
+        enemies[0].GetComponent<Patrol>().setRunSpd(5);
+        enemies[0].GetComponent<Patrol>().setWalkSpd(5);
 
         for (int i = 0; i < enemies.Count; i++)
         {

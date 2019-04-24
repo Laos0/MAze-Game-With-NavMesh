@@ -24,8 +24,8 @@ public class Patrol : MonoBehaviour
         locations = GameObject.FindGameObjectsWithTag("patrolPoint");
         isPlayerSpotted = false;
         agent = GetComponent<NavMeshAgent>();
-        setWalkSpd(1);
-        setRunSpd(2);
+        setWalkSpd(.5f);
+        setRunSpd(1f);
 
 
         // Disabling auto-braking allows for continuous movement
