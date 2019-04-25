@@ -25,6 +25,7 @@ public class TheGameManager : Singleton<TheGameManager> {
 
 	// Use this for initialization
 	void Awake () {
+        // wait til all the npc are created
         StartCoroutine(startGame());
     }
 
@@ -34,6 +35,7 @@ public class TheGameManager : Singleton<TheGameManager> {
         isPlayerSpotted = trueOrFalse;
         if(isPlayerSpotted == true)
         {
+            Debug.Log("PLAYER HIT!");
             alertNPC();
         }
     }
@@ -42,7 +44,7 @@ public class TheGameManager : Singleton<TheGameManager> {
     {
         for(int i = 0; i < enemies.Count; i++)
         {
-            enemies[i].GetComponent<Patrol>().isPlayerSpotted = true;
+            enemies[i].GetComponent<Patrol>().alertNPC = true;
         }
     }
 
@@ -70,6 +72,7 @@ public class TheGameManager : Singleton<TheGameManager> {
         GameObject e2 = createEnemy(new Vector3(-32,2,117));
         GameObject e3 = createEnemy(new Vector3(-32,2,-49));
         GameObject e4 = createEnemy(new Vector3(64,2,16));
+        GameObject e5 = createEnemy(new Vector3(29, 2, 29));
     }
 
     public void gameOver()
@@ -138,8 +141,8 @@ public class TheGameManager : Singleton<TheGameManager> {
 
     void configureNPC()
     {
-        enemies[0].GetComponent<Patrol>().setRunSpd(5);
-        enemies[0].GetComponent<Patrol>().setWalkSpd(5);
+        enemies[0].GetComponent<Patrol>().setRunSpd(5f);
+        enemies[0].GetComponent<Patrol>().setWalkSpd(5f);
 
         for (int i = 0; i < enemies.Count; i++)
         {

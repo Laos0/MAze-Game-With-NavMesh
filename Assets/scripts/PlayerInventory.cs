@@ -14,6 +14,8 @@ public class PlayerInventory : MonoBehaviour {
 
     public Camera camera;
     public GameObject check;
+    public GameObject wayOutToggle;
+    public GameObject wayOutCheck;
 
     public GameObject speedBoostTxt;
     public Text durationTxt;
@@ -35,48 +37,62 @@ public class PlayerInventory : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         Item item = collision.gameObject.GetComponent<Item>();
+
+
         // Condition to win, key must be obtained to open door
-        if(item.itemType == ItemType.KEY)
+        // DONT WORK: collision.gameObject.GetComponent<Item>().itemType == ItemType.KEY
+        // original: item.itemType == ItemType.KEY
+
+        if(item != null)
         {
-            isKeyItem = true;
-            check.SetActive(true);
-            TheGameManager.Instance.setDoesPlayerHaveKey(isKeyItem);
-            inActiveItems.Add(collision.gameObject);
-            collision.gameObject.SetActive(false);
 
+            if (item.itemType == ItemType.KEY)
+            {
+                isKeyItem = true;
+                check.SetActive(true);
+                TheGameManager.Instance.setDoesPlayerHaveKey(isKeyItem);
+                inActiveItems.Add(collision.gameObject);
+                collision.gameObject.SetActive(false);
+                if(isKeyItem == true)
+                {
+                    wayOutToggle.SetActive(true);
+                }
+
+            }
+
+            //collision.gameObject.GetComponent<Item>().
+
+            // increase the player's view
+            if(item.itemType == ItemType.EAGLE_VIEW)
+            {
+                isVisionItem = true;
+                camera.GetComponent<CameraFollower>().offset.y += increaseView;
+                TheGameManager.Instance.setDoesPlayerHaveVision(isVisionItem);
+                inActiveItems.Add(collision.gameObject);
+                collision.gameObject.SetActive(false);
+            }
+
+            if(item.itemType == ItemType.SPEED_BOOST)
+            {
+                //Debug.Log("SPEED BOOST");
+                TheGameManager.Instance.increasePlayerSpeed();
+                speedBoostTxt.SetActive(true);
+                inActiveItems.Add(collision.gameObject);
+                collision.gameObject.SetActive(false);
+                startCoutDown();
+            }
         }
-
-        // increase the player's view
-        if(item.itemType == ItemType.EAGLE_VIEW)
-        {
-            isVisionItem = true;
-            camera.GetComponent<CameraFollower>().offset.y += increaseView;
-            TheGameManager.Instance.setDoesPlayerHaveVision(isVisionItem);
-            inActiveItems.Add(collision.gameObject);
-            collision.gameObject.SetActive(false);
-        }
-
-        if(item.itemType == ItemType.SPEED_BOOST)
-        {
-            //Debug.Log("SPEED BOOST");
-            TheGameManager.Instance.increasePlayerSpeed();
-            speedBoostTxt.SetActive(true);
-            inActiveItems.Add(collision.gameObject);
-            collision.gameObject.SetActive(false);
-            startCoutDown();
-        }
-
 
         // need key to open the door
-        if(collision.gameObject.tag == "door")
+        if (collision.gameObject.tag == "door")
         {
-            if(isKeyItem != false)
+            if (isKeyItem != false)
             {
+                wayOutCheck.SetActive(true);
                 TheGameManager.Instance.GetComponent<TheGameManager>().winGame();
             }
         }
 
-       
     }
 
     public void resetInActiveObj()
@@ -106,6 +122,7 @@ public class PlayerInventory : MonoBehaviour {
             // when duration reaches 0
             isInProcess = false;
             speedBoostTxt.SetActive(false);
+            duration = 30;
             gameObject.GetComponent<NavMeshAgent>().speed = 3;
         }
     }

@@ -55,26 +55,27 @@ public class Patrol : MonoBehaviour
     {
         // Checking to see if the player is within the field of view
         isPlayerSpotted = gameObject.GetComponent<FOVDetection>().isInFOV;
-
-        if (isPlayerSpotted)
-        {
-            agent.SetDestination(target.transform.position);
-            targetSpd = runSpd;
-            changeSpd();
             
-        }
-        else
-        {
-            targetSpd = walkSpd;
-            changeSpd();
-            Debug.Log("PLAYER IS NOT SPOTTED");
-            // Choose the next destination point when the agent gets
-            // close to the current one.
-            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            if (isPlayerSpotted)
             {
-                GotoNextPoint();
+                agent.SetDestination(target.transform.position);
+                targetSpd = runSpd;
+                changeSpd();
+
             }
-        }
+            else
+            {
+                targetSpd = walkSpd;
+                changeSpd();
+                Debug.Log("PLAYER IS NOT SPOTTED");
+                // Choose the next destination point when the agent gets
+                // close to the current one.
+                if (!agent.pathPending && agent.remainingDistance < 0.5f)
+                {
+                    GotoNextPoint();
+                }
+            }
+        
     
     }
 
