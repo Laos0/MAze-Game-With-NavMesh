@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum ItemType{
-    KEY, SPEED_BOOST, EAGLE_VIEW
+    KEY, SPEED_BOOST, EAGLE_VIEW, DESTRUCTION
 }

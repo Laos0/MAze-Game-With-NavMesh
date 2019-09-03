@@ -17,6 +17,8 @@ public class PlayerInventory : MonoBehaviour {
     public GameObject wayOutToggle;
     public GameObject wayOutCheck;
 
+    public GameObject light;
+
     public GameObject speedBoostTxt;
     public Text durationTxt;
 
@@ -77,6 +79,9 @@ public class PlayerInventory : MonoBehaviour {
                 //Debug.Log("SPEED BOOST");
                 TheGameManager.Instance.increasePlayerSpeed();
                 speedBoostTxt.SetActive(true);
+   
+                light.GetComponent<Light>().color = new Color(0f/255f, 255f/255f, 184f/225f);
+                //FFFBAC -yellow
                 inActiveItems.Add(collision.gameObject);
                 collision.gameObject.SetActive(false);
                 startCoutDown();
@@ -119,6 +124,7 @@ public class PlayerInventory : MonoBehaviour {
         }
         else
         {
+            light.GetComponent<Light>().color = new Color(255f/255f, 251/255f, 172/255f);
             // when duration reaches 0
             isInProcess = false;
             speedBoostTxt.SetActive(false);
